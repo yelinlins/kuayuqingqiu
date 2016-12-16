@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<button onclick="btnClick()">发起CORS请求</button>
+		<br />
+		
+		<button onclick="jsonpClick()">发起JSONP请求</button>
+		<br />
+		
+		<button onclick="weatherClick()">获取百度天气</button>
+		<br />
+		
+		<select id="type" name="type">
+			<option value="yunda">韵达</option>
+			<option value="shentong">申通</option>
+			<option value="ems">EMS</option>
+		</select>
+		
+		<input type="text" name="postid" id="postid" />
+		
+		<button onclick="kuaidiClick()">查询快递</button>
+		
+		
+	</body>
+	
+	<script src="jquery.js"></script>
+	
+	<script>
+		//host文件位置:c:windows/system32/drives/etc/hosts
+		
+		//host文件规定了本机发起的域名请求会映射到哪个IP地址，
+		//它生效在DNS之前。
+		
+		function btnClick(){
+			//浏览器只允许页面发送页面所在域名开头的ajax请求，
+			//不允许访问其他域名的接口地址。
+			$.get("http://firstdomain.com:8080/api")
+			.done(function(resData){
+				console.log(resData);
+			});
+		}
+		
+		
+		function jsonpClick(){
+			$.getJSON("http://firstdomain.com:8080/jsonpAPI?callback=?",function(resData){
+				console.log(resData.name);
+				console.log(resData.age);
+			});
+		}
+		
+		
+		function weatherClick(){
+			$.getJSON("http://api.map.baidu.com/telematics/v3/weather?location=郑州市&output=json&ak=ck6oSxPYCgGLYKc17YZXanOC&callback=?",function(resData){
+				console.dir(resData);
+			});
+		}
+		
+		
+		function kuaidiClick(){
+			$.get("/kuaidi?type="+
+			$("#type").val()+
+			"&postid="+
+			$("#postid").val(),function(resData){
+				console.dir(resData);
+			});
+		}
+		
+		
+	</script>
+	
+</html>
